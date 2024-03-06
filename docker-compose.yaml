@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+  messaging-service:
+    container_name: messaging-service
+    image: messaging-service
+    build: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo
+    networks:
+      - mynetwork
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://host.docker.internal:27017/messaging
+networks:
+  mynetwork:
+    driver: bridge
