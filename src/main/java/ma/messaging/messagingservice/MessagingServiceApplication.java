@@ -8,7 +8,6 @@ import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs;
 
 
 @SpringBootApplication
-@EnableSqs
 public class MessagingServiceApplication {
     private static final Logger logger = LogManager.getLogger(MessagingServiceApplication.class);
 

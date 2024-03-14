@@ -1,6 +1,9 @@
 package ma.messaging.messagingservice.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -15,33 +18,33 @@ public class Message {
 
     @Getter
     @Id
-    @Field("message_id")
+    @JsonProperty("message_id")
     private UUID messageId;
 
     @Getter
     @Setter
-    @Field("chat_id")
+    @JsonProperty("chat_id")
     private UUID chatId;
 
     @Getter
     @Setter
-    @Field("receiver_id")
+    @JsonProperty("receiver_id")
     private UUID receiverID;
 
     @Getter
     @Setter
-    @Field("sender_id")
+    @JsonProperty("sender_id")
     private UUID senderId;
 
 
     @Getter
     @Setter
-    @Field("message_content")
+    @JsonProperty("message_content")
     private String messageContent;
 
     @Getter
     @Setter
-    @Field("timestamp")
+    @JsonProperty("timestamp")
     private LocalDateTime timestamp;
 
     public Message(UUID messageId, UUID chatId, UUID receiverID, UUID senderId, String messageContent) {
@@ -67,6 +70,7 @@ public class Message {
     }
 
     public Message() {
+        messageId = UUID.randomUUID();
         timestamp = LocalDateTime.now();
     }
 

@@ -12,6 +12,6 @@ import java.util.UUID;
 @Repository
 public interface MessageRepository extends MongoRepository<Message, String> {
 
-    List<Message> findByChatId(UUID chatId);
+    List<Message> findByChatId(UUID chat_id);
 
 }
