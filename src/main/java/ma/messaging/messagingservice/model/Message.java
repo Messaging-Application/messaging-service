@@ -14,7 +14,6 @@ import java.util.UUID;
 public class Message {
 
     @Getter
-    @Setter
     @Id
     @Field("message_id")
     private UUID messageId;
@@ -52,6 +51,19 @@ public class Message {
         this.senderId = senderId;
         this.messageContent = messageContent;
         this.timestamp = LocalDateTime.now();
+    }
+
+    public Message( UUID chatId, UUID receiverID, UUID senderId, String messageContent) {
+        this.messageId = UUID.randomUUID();
+        this.chatId = chatId;
+        this.receiverID = receiverID;
+        this.senderId = senderId;
+        this.messageContent = messageContent;
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public void setMessageId(UUID messageId) {
+        this.messageId = UUID.randomUUID();
     }
 
     public Message() {
