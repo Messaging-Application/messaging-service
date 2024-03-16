@@ -37,16 +37,23 @@ public class SQSService {
     public String receive(){
         log.info("Saving Message");
         List<Message> messages = sqsClient.receiveMessage(SQS_QUEUE_URL).getMessages();
+        ma.messaging.messagingservice.model.Message message;
+        try{
+            message = MessageMapper.fromSQSMessage(messages.get(0));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        log.info("Message: " + message);
         if(messages.isEmpty())
             return "Didn't have any message to read";
 
 
-
-        try {
-            messageRepository.save(MessageMapper.fromSQSMessage(messages.get(0)));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        if(message != null){
+            messageRepository.save(message);
+            log.info("Saved Message with success");
         }
+
 
         return "Message has been processed";
     }
