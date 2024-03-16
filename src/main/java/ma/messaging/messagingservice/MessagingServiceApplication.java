@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs;
 import org.springframework.retry.annotation.EnableRetry;
 
-@EnableRetry
 @SpringBootApplication
 public class MessagingServiceApplication {
     private static final Logger logger = LogManager.getLogger(MessagingServiceApplication.class);
