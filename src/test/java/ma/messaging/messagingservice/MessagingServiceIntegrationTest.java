@@ -59,7 +59,7 @@ public class MessagingServiceIntegrationTest {
     @Test
     public void testStoreAndRetrieveMessage() {
         UUID chatId = UUID.randomUUID();
-        Message message = new Message(UUID.randomUUID(), chatId, UUID.randomUUID(), UUID.randomUUID(), "Hello, Testcontainers!");
+        Message message = new Message(UUID.randomUUID(), chatId, 3, 2, "Hello, Testcontainers!");
         messageRepository.save(message);
 
         List<Message> retrievedMessages = messageRepository.findByChatId(chatId);
@@ -71,7 +71,7 @@ public class MessagingServiceIntegrationTest {
     @Test
     void testGetMessagesByChatId() {
         UUID chatId = UUID.randomUUID();
-        Message message = new Message(UUID.randomUUID(), chatId, UUID.randomUUID(), UUID.randomUUID(), "Hello from Testcontainers!");
+        Message message = new Message(UUID.randomUUID(), chatId, 1, 2, "Hello from Testcontainers!");
         messageRepository.save(message);
 
         given()

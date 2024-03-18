@@ -29,12 +29,12 @@ public class Message {
     @Getter
     @Setter
     @JsonProperty("receiver_id")
-    private UUID receiverID;
+    private int receiverID;
 
     @Getter
     @Setter
     @JsonProperty("sender_id")
-    private UUID senderId;
+    private int senderId;
 
 
     @Getter
@@ -47,7 +47,7 @@ public class Message {
     @JsonProperty("timestamp")
     private LocalDateTime timestamp;
 
-    public Message(UUID messageId, UUID chatId, UUID receiverID, UUID senderId, String messageContent) {
+    public Message(UUID messageId, UUID chatId, int receiverID, int senderId, String messageContent) {
         this.messageId = messageId;
         this.chatId = chatId;
         this.receiverID = receiverID;
@@ -56,7 +56,7 @@ public class Message {
         this.timestamp = LocalDateTime.now();
     }
 
-    public Message( UUID chatId, UUID receiverID, UUID senderId, String messageContent) {
+    public Message( UUID chatId, int receiverID, int senderId, String messageContent) {
         this.messageId = UUID.randomUUID();
         this.chatId = chatId;
         this.receiverID = receiverID;
