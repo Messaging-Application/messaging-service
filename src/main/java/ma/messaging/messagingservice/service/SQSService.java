@@ -46,6 +46,7 @@ public class SQSService {
                 log.info("Deleted message from SQS: {}", m.getReceiptHandle());
             }
         } catch (JsonProcessingException e) {
+            log.error("Error processing message: ", e);
             throw new RuntimeException(e);
         }
 
