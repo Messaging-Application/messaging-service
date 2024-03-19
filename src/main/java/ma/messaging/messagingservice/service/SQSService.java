@@ -1,22 +1,19 @@
 package ma.messaging.messagingservice.service;
 
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
-//import ma.messaging.messagingservice.model.Message;
 import ma.messaging.messagingservice.repository.MessageRepository;
 import ma.messaging.messagingservice.utils.MessageMapper;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -43,16 +40,30 @@ public class SQSService {
     public String receive(){
         log.info("Saving Message");
         List<Message> messages = sqsClient.receiveMessage(SQS_QUEUE_URL).getMessages();
+        List<ma.messaging.messagingservice.model.Message> messagesToSave = new ArrayList<>();
+        try{
+            for(Message m : messages ){
+                messagesToSave.add(MessageMapper.fromSQSMessage(m));
+                log.info("Processed message: {}", m.getBody());
+
+                sqsClient.deleteMessage(new DeleteMessageRequest()
+                        .withQueueUrl(SQS_QUEUE_URL)
+                        .withReceiptHandle(m.getReceiptHandle()));
+                log.info("Deleted message from SQS: {}", m.getReceiptHandle());
+            }
+        } catch (JsonProcessingException e) {
+            log.error("Error processing message: ", e);
+            throw new RuntimeException(e);
+        }
+
+
         if(messages.isEmpty())
             return "Didn't have any message to read";
 
+        messageRepository.saveAll(messagesToSave);
+        log.info("Saved Message with success");
 
 
-        try {
-            messageRepository.save(MessageMapper.fromSQSMessage(messages.get(0)));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
 
         return "Message has been processed";
     }

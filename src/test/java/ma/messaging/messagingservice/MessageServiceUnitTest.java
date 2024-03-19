@@ -34,8 +34,8 @@ public class MessageServiceUnitTest {
     public void testGetMessagesByChatId() {
         UUID chatId = UUID.randomUUID();
         List<Message> expectedMessages = Arrays.asList(
-                new Message(UUID.randomUUID(), chatId, UUID.randomUUID(), UUID.randomUUID(), "Message 1"),
-                new Message(UUID.randomUUID(), chatId, UUID.randomUUID(), UUID.randomUUID(), "Message 2")
+                new Message(UUID.randomUUID(), chatId, 1, 2, "Message 1"),
+                new Message(UUID.randomUUID(), chatId, 3, 4, "Message 2")
         );
 
         when(messageRepository.findByChatId(chatId)).thenReturn(expectedMessages);
@@ -48,7 +48,7 @@ public class MessageServiceUnitTest {
 
     @Test
     public void testStoreMessage() {
-        Message messageToStore = new Message(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), "New Message");
+        Message messageToStore = new Message(UUID.randomUUID(), UUID.randomUUID(), 5, 6, "New Message");
 
         when(messageRepository.save(messageToStore)).thenReturn(messageToStore);
 
