@@ -26,18 +26,9 @@ spec:
         app: messaging-service
     spec:
       containers:
-      - image: dasha12678/messaging-service:latest
+      - image: messaging-service
         name: messaging-service
         imagePullPolicy: Always
         ports:
-        - containerPort: 8082 #port for messaging-service 
-        env:
-        - name: MONGO_URI
-          value: "mongodb://${MONGO_URI}"
-        - name: MONGO_DB
-          value: "${MONGO_DB}"
-        - name: SQS_REGION
-          value: "${SQS_REGION}"   
-        - name: SQS_URL
-          value: "${SQS_URL}"
+        - containerPort: 8082 #port for messaging-service
       restartPolicy: Always
