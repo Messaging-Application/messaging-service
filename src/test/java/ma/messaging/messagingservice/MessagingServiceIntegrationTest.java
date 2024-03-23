@@ -1,16 +1,20 @@
 package ma.messaging.messagingservice;
 
+import com.amazonaws.services.sqs.AmazonSQS;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import ma.messaging.messagingservice.model.Message;
 import ma.messaging.messagingservice.repository.MessageRepository;
+import ma.messaging.messagingservice.service.SQSService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -35,6 +39,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @Testcontainers
 public class MessagingServiceIntegrationTest {
 
+    @MockBean
+    private AmazonSQS amazonSQS;
+
+    @InjectMocks
+    private SQSService sqsService;
 
 
     @Autowired
