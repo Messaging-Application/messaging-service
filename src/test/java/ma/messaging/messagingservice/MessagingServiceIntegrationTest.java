@@ -81,6 +81,6 @@ public class MessagingServiceIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", greaterThan(0))
-                .body("[0].messageContent", equalTo("Hello from Testcontainers!"));
+                .body("[0].message_content", equalTo("Hello from Testcontainers!"));
     }
 }
