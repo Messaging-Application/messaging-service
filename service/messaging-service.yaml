@@ -24,18 +24,31 @@ spec:
     metadata:
       labels:
         app: messaging-service
-    spec:
+    spec:  
       containers:
       - image: dasha12678/messaging-service:latest
         name: messaging-service
         imagePullPolicy: Always
         ports:
-        - containerPort: 8082 #port for messaging-service 
+        - containerPort: 8082 #port for messaging-service
         env:
-        - name: MONGO_URI
-          value: "mongodb://${MONGO_URI}"
-        - name: MONGO_DB
-          value: "${MONGO_DB}"
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodburi
+              key: MONGODB_URI
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: accesskey
+              key: ACCESS_KEY
+        - name: ACCESS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: accesssecretkey
+              key: ACCESS_SECRET_KEY
+        - name: AWS_REGION
+          value: "eu-central-1"
         - name: SQS_REGION
           value: "${SQS_REGION}"   
         - name: SQS_URL
