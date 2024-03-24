@@ -11,6 +11,7 @@ import ma.messaging.messagingservice.repository.MessageRepository;
 import ma.messaging.messagingservice.utils.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,14 @@ public class SQSService {
 
     private AmazonSQS sqsClient;
 
+    @Value("${cloud.aws.region.static}")
+    private String awsRegion;
+
     @PostConstruct
     public void init() {
-        this.sqsClient = AmazonSQSClientBuilder.defaultClient();
+        this.sqsClient = AmazonSQSClientBuilder.standard()
+                .withRegion(awsRegion)
+                .build();
     }
 
     public String receive(){
