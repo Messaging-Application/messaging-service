@@ -63,9 +63,14 @@ jobs:
 
       - name: Clean Maven project
         run: mvn clean
+        
 
       - name: Run Maven tests
         run: mvn test 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-central-1'
 
       - name: Generate Jacoco Report
         run: mvn jacoco:report
